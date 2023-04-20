@@ -1,0 +1,15 @@
+.image-page {
+    display: flex;
+
+    > .left {
+        flex-basis: 1400px;
+
+        .image {
+            width: 100%;
+        }
+    }
+
+    > .right {
+        flex-grow: 1;
+    }
+}

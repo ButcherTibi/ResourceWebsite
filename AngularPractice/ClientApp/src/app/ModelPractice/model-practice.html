@@ -1,0 +1,13 @@
+<p>{{text_var}}</p>
+<input [(ngModel)]="text_var">
+
+<form novalidate [formGroup]="form_data" (ngSubmit)="submit(form_data)">
+    <label>Text field</label>
+    <input type="text" formControlName="text_field">
+    <label>Number field</label>
+    <input type="number" formControlName="num_field">
+    
+    <button type="submit" [disabled]="form_data.invalid">
+        Submit
+    </button>
+</form>

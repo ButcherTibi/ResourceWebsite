@@ -1,0 +1,23 @@
+<h1>If directive</h1>
+<p *ngIf="bool_var else bool_var_false">Boolean variable is true</p>
+<ng-template #bool_var_false>
+    <p>Boolean variable is false</p>
+</ng-template>
+<button (click)="toggleBoolVar()">Toogle which branch is active</button>
+
+<h1>Switch directive</h1>
+<ng-container [ngSwitch]="state">
+    <p *ngSwitchCase="states.Online">State is online</p>
+    <p *ngSwitchCase="states.Offline">State is offline</p>
+    <p *ngSwitchDefault>State is error</p>
+</ng-container>
+<select [(ngModel)]="state">
+    <option [value]="states.Online">Online</option>
+    <option [value]="states.Offline">Offline</option>
+    <option [value]="states.Error">Error</option>
+</select>
+
+<h1>For directive</h1>
+<ng-container *ngFor="let item of items; let i = index">
+    <p>{{i + 1}}. {{item}}</p>
+</ng-container>
