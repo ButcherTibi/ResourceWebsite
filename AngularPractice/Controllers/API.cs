@@ -59,15 +59,21 @@ public class Endpoints : ControllerBase
 	public class GetCommentsRequest
 	{
 		public int resource_id { get; set; }
+		public int parent_comment_id { get; set; }
 	}
 
 	public class GetCommentsResponse
 	{
 		public class Comment
 		{
-			public int level { get; set; }
+			public int id { get; set; }
+			public int parent_id { get; set; }
+
 			public string user_name { get; set; }
+			public DateTime updated_date { get; set; }
 			public string text { get; set; }
+			public int likes { get; set; }
+			public int dislikes { get; set; }
 		}
 
 		public List<Comment> comments { get; set; }
@@ -81,19 +87,28 @@ public class Endpoints : ControllerBase
 		};
 
 		result.comments.Add(new GetCommentsResponse.Comment {
-			level = 0,
+			id = 0,
 			user_name = "User 0",
-			text = "Comment 0"
+			updated_date = DateTime.Now,
+			text = "Comment 0",
+			likes = 10234,
+			dislikes = 120
 		});
 		result.comments.Add(new GetCommentsResponse.Comment {
-			level = 1,
+			id = 1,
 			user_name = "User 1",
-			text = "Comment 1"
+			updated_date = DateTime.Now,
+			text = "Comment 1",
+			likes = 17897,
+			dislikes = 1002,
 		});
 		result.comments.Add(new GetCommentsResponse.Comment {
-			level = 1,
+			id = 2,
 			user_name = "User 2",
-			text = "Comment 2"
+			updated_date = DateTime.Now,
+			text = "Comment 2",
+			likes = 189,
+			dislikes = 10,
 		});
 
 		return result;

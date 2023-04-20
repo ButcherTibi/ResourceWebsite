@@ -1,15 +1,163 @@
 .image-page {
-    display: flex;
+	display: flex;
 
-    > .left {
-        flex-basis: 1400px;
+	
 
-        .image {
-            width: 100%;
-        }
-    }
+	>.left {
+		flex-basis: 1400px;
 
-    > .right {
-        flex-grow: 1;
-    }
+		.image {
+			width: 100%;
+		}
+
+		.below-image {
+			padding: 0px 12px;
+		}
+
+		.title {
+			color: white;
+			line-height: 1.4;
+		}
+
+		.author-and-stats-row {
+			margin-bottom: 2px;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+
+			.left {
+				display: flex;
+				align-items: center;
+				gap: 20px;
+
+				.author-and-subs {
+					.author-name {
+						font-size: 1.1rem;
+						color: white;
+					}
+
+					.subscribers {
+						color: hsl(0, 0%, 75%);
+
+						var {
+							font-family: monospace;
+							font-style: normal;
+						}
+					}
+				}
+
+				.subscribe-btn {
+					border-radius: 100px;
+					padding: 10px 16px;
+					height: fit-content;
+
+					line-height: 1;
+				}
+			}
+
+			.right {
+				display: flex;
+				align-items: center;
+				gap: 15px;
+
+				.views {
+					color: white;
+				}
+			}
+		}
+
+		.details {
+			margin-bottom: 10px;
+			border-radius: 7px;
+			padding: 8px;
+			background-color: hsl(0, 0%, 100%, .1);
+
+			.tab-btns {
+				margin-bottom: 7px;
+				--corner_radius: 5px;
+
+				button:first-child {
+					border-radius: var(--corner_radius) 0px 0px var(--corner_radius);
+				}
+
+				button:last-child {
+					border-radius: 0px var(--corner_radius) var(--corner_radius) 0px;
+				}
+			}
+
+			.tabs {
+				.description-tab {
+					.text {
+						color: white;
+					}
+				}
+			}
+		}
+
+		.comments {
+			.comment-count {
+				margin-bottom: 10px;
+				font-size: 1.2em;
+				color: white;
+				line-height: 1;
+
+				var {
+					font-family: monospace;
+				}
+			}
+
+			.comment-list {
+				display: flex;
+				flex-direction: column;
+				gap: 10px;
+
+				.comment {
+					.top-row {
+						display: flex;
+						align-items: baseline;
+
+						.user-name {
+							font-size: 1em;
+							font-weight: bold;
+							color: white;
+						}
+
+						.updated-date {
+							font-size: 1em;
+							color: white;
+						}
+
+						.rating {
+							display: flex;
+							gap: 3px;
+		
+							.up, .down {
+								font-size: 1em;
+
+								var {
+									font-family: monospace;
+								}
+							}
+		
+							.up {
+								border-radius: 50px 0px 0px 50px;
+							}
+		
+							.down {
+								border-radius: 0px 50px 50px 0px;
+							}
+						}
+					}
+
+					.text {
+						color: white;
+					}
+				}
+			}
+		}
+	}
+
+	>.right {
+		flex-grow: 1;
+	}
 }

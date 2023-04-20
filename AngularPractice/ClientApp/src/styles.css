@@ -14,3 +14,26 @@ code {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+
+/* Style Reset */
+h1, h2, h3, h4 {
+  margin-bottom: 0px;
+}
+
+p {
+  margin-bottom: 0px;
+}
+
+var {
+  font-style: normal;
+}
+
+button {
+  border-style: none;
+}
+
+/* Theme */
+body {
+  background-color: hsl(222, 15%, 12%);
+}
+

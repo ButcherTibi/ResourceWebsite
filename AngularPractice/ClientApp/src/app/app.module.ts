@@ -16,6 +16,7 @@ import { CommonModule } from '@angular/common';
 import { ModelPractice } from './ModelPractice/ModelPractice';
 import { ImagePage } from './ImagePage/ImagePage';
 import { PageWrapper } from './PageWrapper/PageWrapper';
+import { Rating } from './Rating/Rating';
 
 
 // TODO:
@@ -42,7 +43,8 @@ import { PageWrapper } from './PageWrapper/PageWrapper';
 
     // For Real
     ImagePage,
-    PageWrapper
+    PageWrapper,
+    Rating
   ],
   imports: [
     CommonModule,

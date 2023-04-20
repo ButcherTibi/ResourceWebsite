@@ -26,7 +26,10 @@ export class GetCommentsRequest {
 export class Comment {
     level: number = 0
     user_name: string = ''
+    updated_date: Date = new Date
     text: string = ''
+    likes: number = 0
+    dislikes: number = 0
 }
 
 interface GetResourceCommentsResponse {

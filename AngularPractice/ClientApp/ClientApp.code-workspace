@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"[html]": {
+			"editor.insertSpaces": false,
+			"editor.tabSize": 2
+		},
+		"[scss]": {
+			"editor.insertSpaces": false,
+			"editor.tabSize": 2
+		}
+	}
+}
