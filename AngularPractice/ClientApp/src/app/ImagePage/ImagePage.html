@@ -1,65 +1,69 @@
-<div class="image-page">
-	<div class="left">
-		<img class="image" [src]="image_safeurl">
+<div class="left">
+	<img class="image" [src]="image_safeurl">
 
-		<div class="below-image">
-			<h1 class="title">{{image_details.title}}</h1>
-			<div class="author-and-stats-row">
-				<div class="left author">
-					<div class="author-and-subs">
-						<h3 class="author-name">{{image_details.author_name}}</h3>
-						<p class="subscribers"><var>{{image_details.subscriptions}}</var> subscribers</p>
-					</div>
-					<button class="subscribe-btn">Subscribe</button>
+	<div class="below-image">
+		<h1 class="title">{{image_details.title}}</h1>
+		<div class="author-and-stats-row">
+			<div class="left author">
+				<div class="author-and-subs">
+					<h3 class="author-name">{{image_details.author_name}}</h3>
+					<p class="subscribers"><var>{{image_details.subscriptions | largeNum}}</var> subscribers</p>
 				</div>
-				<div class="right stats">
-					<p class="views">
-						<var>{{image_details.views}}</var> views
-					</p>
-					<rating [likes]="image_details.likes" [dislikes]="image_details.dislikes"></rating>
-				</div>
+				<button class="subscribe-btn">Subscribe</button>
 			</div>
-			<div class="details">
-				<div class="tab-btns">
-					<button>Description</button>
-					<button>Info</button>
-					<button>Share</button>
-					<button>Download</button>
-				</div>
-				<div class="tabs">
-					<div class="description-tab">
-						<p class="text">{{image_details.description}}</p>
-					</div>
-				</div>
+			<div class="right stats">
+				<p class="views">
+					<var>{{image_details.views | largeNum}}</var> views
+				</p>
+				<rating [likes]="image_details.likes" [dislikes]="image_details.dislikes"
+					[unique_class]="'image-rating'"
+				></rating>
 			</div>
-
-			<div class="comments">
-				<h3 class="comment-count">
-					<var>{{comments.length}}</var> Comments
-				</h3>
-
-				<div class="comment-list">
-					<ng-container *ngFor="let comment of comments">
-						<div class="comment">
-							<div class="top-row">
-								<h3 class="user-name">{{comment.user_name}}</h3>
-								<var class="updated-date">{{comment.updated_date}}</var>
-								<div class="rating">
-									<button class="up"><var>{{comment.likes}}</var> Up</button>
-									<button class="down"><var>{{comment.dislikes}}</var> Down</button>
-								</div>
-							</div>
-							<p class="text">{{comment.text}}</p>
-							<div class="replies-row">
-								<button><var></var> replies</button>
-							</div>
-						</div>
-					</ng-container>
+		</div>
+		<div class="details">
+			<div class="tab-btns">
+				<button>Description</button>
+				<button>Info</button>
+				<button>Share</button>
+				<button>Download</button>
+			</div>
+			<div class="tabs">
+				<div class="description-tab">
+					<p class="text">{{image_details.description}}</p>
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="right">
 
+		<div class="comments">
+			<h3 class="comment-count">
+				<var>{{comments.length}}</var> Comments
+			</h3>
+
+			<div class="comment-list">
+				<ng-container *ngFor="let comment of comments">
+					<div class="comment">
+						<div class="top-row">
+							<div class="user-and-rating">
+								<h3 class="user-name">{{comment.user_name}}</h3>
+								<rating [likes]="comment.likes" [dislikes]="comment.dislikes"
+									[unique_class]="'comment-' + comment.id"
+									[dimmed]="true"
+								></rating>
+							</div>			
+							<var class="updated-date">{{comment.updated_date | when}}</var>
+						</div>
+						<div class="text">
+							<p>{{comment.text}}</p>
+						</div>
+						<div class="replies-row">
+							<button class="replies-btn"><var>12</var> replies</button>
+						</div>
+					</div>
+				</ng-container>
+			</div>
+		</div>
 	</div>
+</div>
+<div class="right">
+
 </div>

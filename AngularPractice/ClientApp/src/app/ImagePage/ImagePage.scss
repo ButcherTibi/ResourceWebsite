@@ -1,7 +1,5 @@
-.image-page {
+:host {
 	display: flex;
-
-	
 
 	>.left {
 		flex-basis: 1400px;
@@ -15,8 +13,11 @@
 		}
 
 		.title {
-			color: white;
+			margin-top: 5px;
+			margin-bottom: 10px;
+			font-size: 1.2rem;
 			line-height: 1.4;
+			color: white;
 		}
 
 		.author-and-stats-row {
@@ -32,26 +33,33 @@
 
 				.author-and-subs {
 					.author-name {
-						font-size: 1.1rem;
+						font-size: 0.9rem;
 						color: white;
 					}
 
 					.subscribers {
-						color: hsl(0, 0%, 75%);
+						font-size: 0.8rem;
+						color: hsl(0, 0%, 100%, 0.7);
 
 						var {
 							font-family: monospace;
-							font-style: normal;
 						}
 					}
 				}
 
 				.subscribe-btn {
 					border-radius: 100px;
-					padding: 10px 16px;
+					padding: 8px 12px;
 					height: fit-content;
 
+					background-color: hsl(0, 0%, 100%);
+
+					font-size: 0.9rem;
 					line-height: 1;
+
+					&:hover {
+						background-color: hsl(0, 0%, 100% - 15%);
+					}
 				}
 			}
 
@@ -61,6 +69,7 @@
 				gap: 15px;
 
 				.views {
+					font-size: 0.9rem;
 					color: white;
 				}
 			}
@@ -76,12 +85,18 @@
 				margin-bottom: 7px;
 				--corner_radius: 5px;
 
-				button:first-child {
-					border-radius: var(--corner_radius) 0px 0px var(--corner_radius);
-				}
+				button {
+					padding: 2px 5px;
 
-				button:last-child {
-					border-radius: 0px var(--corner_radius) var(--corner_radius) 0px;
+					font-size: 0.9rem;
+
+					&:first-child {
+						border-radius: var(--corner_radius) 0px 0px var(--corner_radius);
+					}
+
+					&:last-child {
+						border-radius: 0px var(--corner_radius) var(--corner_radius) 0px;
+					}
 				}
 			}
 
@@ -97,7 +112,7 @@
 		.comments {
 			.comment-count {
 				margin-bottom: 10px;
-				font-size: 1.2em;
+				font-size: 0.9rem;
 				color: white;
 				line-height: 1;
 
@@ -109,48 +124,66 @@
 			.comment-list {
 				display: flex;
 				flex-direction: column;
-				gap: 10px;
+				gap: 15px;
 
 				.comment {
 					.top-row {
 						display: flex;
-						align-items: baseline;
+						justify-content: space-between;
+						align-items: baseline;					
 
-						.user-name {
-							font-size: 1em;
-							font-weight: bold;
-							color: white;
+						.user-and-rating {
+							display: flex;
+							gap: 10px;
+
+							.user-name {
+								font-size: 0.9rem;
+								font-weight: bold;
+								color: white;
+							}
+	
+							.rating {
+								display: flex;
+								gap: 3px;
+			
+								.up, .down {
+									font-size: 1em;
+	
+									var {
+										font-family: monospace;
+									}
+								}
+			
+								.up {
+									border-radius: 50px 0px 0px 50px;
+								}
+			
+								.down {
+									border-radius: 0px 50px 50px 0px;
+								}
+							}
 						}
 
 						.updated-date {
-							font-size: 1em;
-							color: white;
-						}
-
-						.rating {
-							display: flex;
-							gap: 3px;
-		
-							.up, .down {
-								font-size: 1em;
-
-								var {
-									font-family: monospace;
-								}
-							}
-		
-							.up {
-								border-radius: 50px 0px 0px 50px;
-							}
-		
-							.down {
-								border-radius: 0px 50px 50px 0px;
-							}
+							font-family: monospace;
+							font-size: 0.8rem;
+							color: hsl(0, 0%, 100%, .7);
 						}
 					}
 
 					.text {
+						font-size: 0.9rem;
 						color: white;
+					}
+
+					.replies-row {
+						.replies-btn {
+							padding: 0px;
+							background-color: transparent;
+
+							font-size: 0.8rem;
+							color: white;
+						}
 					}
 				}
 			}

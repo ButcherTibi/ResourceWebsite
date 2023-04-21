@@ -1,51 +1,83 @@
-:host {
-	position: relative;
+.normal-version {
+	--rating_lum: 63%;
 
-	.background {
-		position: absolute;
-		top: 0px;
-		bottom: 0px;
-		z-index: -1;
+	--like_hue: 234;
+	--like_color: hsla(var(--like_hue), 100%, var(--rating_lum));
+	--dislike_hue: 0;
+	--dislike_color: hsla(var(--dislike_hue), 100%, var(--rating_lum));
+	--font_size: 0.9rem;
+}
 
-		width: 100%;
-		height: 100%;
+.dimmed-version {
+	--rating_lum: 63%;
+
+	--like_hue: 234;
+	--like_color: hsla(var(--like_hue), 100%, var(--rating_lum));
+	--dislike_hue: 0;
+	--dislike_color: hsla(var(--dislike_hue), 100%, var(--rating_lum));
+	--font_size: 0.8rem;
+
+	opacity: 0.7;
+}
+
+.rating {
+	display: flex;
+	flex-direction: column;
+
+	.stats {
 		display: flex;
+		--click_lum_delta: 20%;
 
-		.up {
-			width: 50%;
-			height: 100%;
-			background-color: hsl(234, 100%, 63%);
-		}
-
-		.down {
-			flex-grow: 1;
-			height: 100%;
-			background-color: hsl(0, 100%, 63%);
-		}
-	}
-
-	.foreground {
 		.up, .down {
-			color: white;
+			padding: 0px 6px;
+
+			font-size: var(--font_size);
+			color: hsl(0, 0%, 100%);
 			background-color: transparent;
+			transition: background .2s;
 
 			var {
 				font-family: monospace;
 			}
 		}
+
+		.up {
+			&:hover {
+				background-color: var(--like_color);
+			}
+
+			&:active {
+				background-color: hsl(var(--like_hue), 100%, calc(var(--rating_lum) - var(--click_lum_delta)));
+			}
+		}
+
+		.down {
+			&:hover {
+				background-color: var(--dislike_color);
+			}
+
+			&:active {
+				background-color: hsl(var(--dislike_hue), 100%, calc(var(--rating_lum) - var(--click_lum_delta)));
+			}
+		}
 	}
 
-	// .up, .down {
-	// 	var {
-	// 		font-family: monospace;
-	// 	}
-	// }
+	.bar {
+		width: 100%;
+		height: 4px;
+		display: flex;
+		--color_split: 75%;
 
-	// .up {
-	// 	border-radius: 50px 0px 0px 50px;
-	// }
+		.up {
+			width: 50%;
+			height: 100%;
+			background: var(--like_color);
+		}
 
-	// .down {
-	// 	border-radius: 0px 50px 50px 0px;
-	// }
+		.down {
+			flex-grow: 1;
+			height: 100%;
+			background: var(--dislike_color);
+		}
+	}
 }

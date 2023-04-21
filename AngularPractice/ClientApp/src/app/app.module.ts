@@ -17,6 +17,7 @@ import { ModelPractice } from './ModelPractice/ModelPractice';
 import { ImagePage } from './ImagePage/ImagePage';
 import { PageWrapper } from './PageWrapper/PageWrapper';
 import { Rating } from './Rating/Rating';
+import { LargeNumber, When } from 'src/Pipes/Pipes';
 
 
 // TODO:
@@ -44,7 +45,11 @@ import { Rating } from './Rating/Rating';
     // For Real
     ImagePage,
     PageWrapper,
-    Rating
+    Rating,
+
+    // Pipes
+    LargeNumber,
+    When
   ],
   imports: [
     CommonModule,

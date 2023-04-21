@@ -24,6 +24,8 @@ export class GetCommentsRequest {
 }
 
 export class Comment {
+    id: number = 0
+    parent_id: number = 0
     level: number = 0
     user_name: string = ''
     updated_date: Date = new Date

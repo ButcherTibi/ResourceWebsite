@@ -1,8 +1,10 @@
-<div class="background">
-	<div class="up"></div>
-	<div class="down"></div>
-</div>
-<div class="foreground">
-	<button class="up"><var>{{format(likes)}}</var> Up</button>
-	<button class="down"><var>{{format(dislikes)}}</var> Down</button>
+<div [class]="getVersionClass()">
+	<div class="stats">
+		<button class="up"><var>{{likes | largeNum}}</var> Up</button>
+		<button class="down"><var>{{dislikes | largeNum}}</var> Down</button>
+	</div>
+	<div [class]="['bar', unique_class]">
+		<div class="up"></div>
+		<div class="down"></div>
+	</div>
 </div>
