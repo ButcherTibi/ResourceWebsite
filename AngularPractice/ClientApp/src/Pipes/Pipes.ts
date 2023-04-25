@@ -29,3 +29,21 @@ export class When implements PipeTransform {
         return `${day}.${month}.${year} ${hour}:${minute}`
     }
 }
+
+@Pipe({ name: 'dateonly' })
+export class DateOnly implements PipeTransform {
+    transform(date_str: Date): string {
+        let date = new Date(date_str)
+        let parts = Intl.DateTimeFormat(undefined, {
+            day: 'numeric',
+            month: '2-digit',
+            year: 'numeric',
+            hour12: false
+        }).formatToParts(date)
+
+        let day = parts[2].value
+        let month = parts[0].value
+        let year = parts[4].value
+        return `${day}.${month}.${year}`
+    }
+}

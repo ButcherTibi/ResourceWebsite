@@ -113,4 +113,55 @@ public class Endpoints : ControllerBase
 
 		return result;
 	}
+
+	public class GetResourceRecomendationsRequest
+	{
+		public int resource_id { get; set; }
+	}
+
+	public class GetResourceRecomendationsResponse
+	{
+		public class Recomendation
+		{
+			public int resource_id { get; set; }
+			public string title { get; set; }
+			public string author { get; set; }
+			public int views { get; set; }
+			public DateTime create_date { get; set; }
+		}
+
+		public List<Recomendation> recomendations { get; set; }
+	}
+
+	[HttpPost("getResourceRecomendations")]
+	public GetResourceRecomendationsResponse getResourceRecomendations(GetResourceRecomendationsRequest req)
+	{
+		var result = new GetResourceRecomendationsResponse {
+			recomendations = new List<GetResourceRecomendationsResponse.Recomendation>()
+		};
+
+		for (var i = 0; i < 13; i++) {
+			result.recomendations.Add(new GetResourceRecomendationsResponse.Recomendation {
+				resource_id = i,
+				title = $"Recomendation {i}",
+				author = $"Author {i}",
+				views = new Random().Next(13_891_463),
+				create_date = DateTime.Now,
+			});
+		}
+
+		return result;
+	}
+
+	public class GetPreviewImageRequest
+	{
+		public int resource_id { get; set; }
+	}
+
+	[HttpPost("getPreviewImage")]
+	public FileStreamResult getPreviewImage(GetPreviewImageRequest req)
+	{
+		string filepath = "Resources/test_image_preview.png";
+		return new FileStreamResult(new FileStream(filepath, FileMode.Open, FileAccess.Read, FileShare.Read), "image/png");
+	}
 };

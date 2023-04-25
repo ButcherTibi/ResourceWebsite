@@ -17,7 +17,8 @@ import { ModelPractice } from './ModelPractice/ModelPractice';
 import { ImagePage } from './ImagePage/ImagePage';
 import { PageWrapper } from './PageWrapper/PageWrapper';
 import { Rating } from './Rating/Rating';
-import { LargeNumber, When } from 'src/Pipes/Pipes';
+import { DateOnly, LargeNumber, When } from 'src/Pipes/Pipes';
+import { Recomendation } from './Recomendation/recomendation';
 
 
 // TODO:
@@ -49,7 +50,9 @@ import { LargeNumber, When } from 'src/Pipes/Pipes';
 
     // Pipes
     LargeNumber,
-    When
+    When,
+    DateOnly,
+    Recomendation
   ],
   imports: [
     CommonModule,

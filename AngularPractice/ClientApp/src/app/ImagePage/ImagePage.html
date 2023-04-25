@@ -65,5 +65,15 @@
 	</div>
 </div>
 <div class="right">
-
+	<div class="recomendations">
+		<ng-container *ngFor="let recom of recomendations">
+			<recomendation
+				[safeurl]="recom.preview_safeurl"
+				[title]="recom.title"
+				[author]="recom.author"
+				[views]="recom.views"
+				[create_date]="recom.create_date"
+			></recomendation>
+		</ng-container>
+	</div>
 </div>

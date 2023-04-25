@@ -1,5 +1,6 @@
 :host {
 	display: flex;
+	gap: 18px;
 
 	>.left {
 		flex-basis: 1400px;
@@ -9,7 +10,7 @@
 		}
 
 		.below-image {
-			padding: 0px 12px;
+			padding-left: 12px;
 		}
 
 		.title {
@@ -192,5 +193,12 @@
 
 	>.right {
 		flex-grow: 1;
+
+		.recomendations {
+			padding-top: 10px;
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+		}
 	}
 }

@@ -1,0 +1,11 @@
+<div class="left">
+	<img [src]="safeurl">
+</div>
+<div class="right">
+	<h3 class="title">{{title}}</h3>
+	<p class="author">{{author}}</p>
+	<div class="stats">
+		<p class="views"><var>{{views}} views</var></p>
+		<var class="create-date">{{create_date | dateonly}}</var>
+	</div>
+</div>
