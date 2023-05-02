@@ -1,8 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
-import { ResourceLoader, Comment, GetImageDetailsResponse, Recomendation } from "src/Services/ResourceLoaders";
+import { ResourceLoader, GetImageDetailsResponse, Recomendation } from "src/Services/ResourceLoaders";
 import { ObjectURLManager } from "src/Services/ObjectURLManager"
+import { CommentAPI, Comment } from "src/Services/CommentsAPI";
 
 
 class RecomendationView extends Recomendation {
@@ -26,6 +27,7 @@ export class ImagePage implements OnInit, OnDestroy {
 		private http: HttpClient,
 		private sanitizer: DomSanitizer,
 		private res_loader: ResourceLoader,
+		private comments_api: CommentAPI,
 		private objurl_manag: ObjectURLManager
 	) {}
 
@@ -38,7 +40,7 @@ export class ImagePage implements OnInit, OnDestroy {
 			this.image_details = image_details
 		})
 
-		this.res_loader.getResourceComments({ id: 1 }, (comments) => {
+		this.comments_api.getResourceComments({ id: 1 }, (comments) => {
 			this.comments = comments
 		})
 
@@ -57,6 +59,16 @@ export class ImagePage implements OnInit, OnDestroy {
 				recomendation.preview_safeurl = this.objurl_manag.createUrl(buffer)
 			}
 		)
+	}
+
+	addComment() {
+		this.comments_api.addComment({
+			resource_id: 0,
+			author_id: 0,
+			parent_comment_id: 0,
+
+			comment_text: ''
+		})
 	}
 
 	ngOnDestroy(): void {

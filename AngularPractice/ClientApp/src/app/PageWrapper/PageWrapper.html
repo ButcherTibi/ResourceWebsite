@@ -10,13 +10,15 @@
 	</div>
 
 	<div class="right">
-		<button>Notif</button>
-		<button>Name</button>
+		<button class="notifications-btn">Notifications</button>
+		<button class="account-btn">Account</button>
 	</div>
 </header>
 
 <image-page></image-page>
 
-<!-- <footer>
-
-</footer> -->
+<!-- Popups -->
+<ng-container [ngSwitch]="active_popup">
+	<login-popup *ngSwitchCase="popups.Login" (onLogin)="onLogin()"></login-popup>
+</ng-container>
+<!-- <create-account></create-account> -->

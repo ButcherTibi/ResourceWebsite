@@ -19,25 +19,6 @@ export class GetImageDetailsResponse {
 	subscriptions: number = 0
 }
 
-export class GetCommentsRequest {
-	id: number = 0
-}
-
-export class Comment {
-	id: number = 0
-	parent_id: number = 0
-	level: number = 0
-	user_name: string = ''
-	updated_date: Date = new Date
-	text: string = ''
-	likes: number = 0
-	dislikes: number = 0
-}
-
-interface GetResourceCommentsResponse {
-	comments: Comment[]
-}
-
 export class GetResourceRecomendationsRequest {
 	resource_id: number = 0
 }
@@ -77,14 +58,6 @@ export class ResourceLoader {
 	getImageDetails(req: GetImageFileRequest, callback: (image_details: GetImageDetailsResponse) => void) {
 		this.http.post<GetImageDetailsResponse>("api/getImageDetails", req).subscribe(
 			callback
-		)
-	}
-
-	getResourceComments(req: GetCommentsRequest, callback: (comments: Comment[]) => void) {
-		this.http.post<GetResourceCommentsResponse>("api/getResourceComments", req).subscribe(
-			res => {
-				callback(res.comments)
-			}
 		)
 	}
 

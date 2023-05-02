@@ -1,0 +1,89 @@
+@use "../../Theme";
+
+:host {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 100;
+
+	width: 100vw;
+	height: 100vh;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	backdrop-filter: blur(8px) brightness(85%);
+
+	@include Theme.theme;
+
+	.popup {
+		border: 1px solid var(--primary_color);
+		border-radius: 10px;
+		padding: 20px;
+		background-color: hsl(var(--back_hue), var(--back_sat), var(--back_lum));
+		box-shadow: 0px 0px 20px 0px var(--primary_color);
+
+		h1 {
+			margin-bottom: 20px;
+
+			color: white;
+			font-size: 2rem;
+		}
+
+		.frows {
+			margin-bottom: 15px;
+
+			display: flex;
+			flex-direction: column;
+			gap: 7px;
+
+			.frow {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+
+				label {
+					width: 120px;
+					color: white;
+					font-size: 1rem;
+				}
+
+				input {
+					border-radius: 4px;
+					padding: 5px 7px;
+					background-color: hsl(var(--back_hue), var(--back_sat), 30%);
+
+					color: white;
+					font-size: 1rem;
+
+					&:focus {
+						outline: 1px solid var(--primary_color);
+					}
+				}
+			}
+		}
+
+		.actions {
+			display: flex;
+			justify-content: center;
+
+			.signin {
+				border-radius: 4px;
+				padding: 8px 15px;
+
+				background-color: hsl(var(--primary_hue), var(--primary_sat), 50%);
+				cursor: pointer;
+				
+				font-size: 1rem;
+				font-weight: 500;
+				line-height: 1;
+				color: black;
+
+				&:disabled {
+					opacity: 0.3;
+					cursor: default;
+				}
+			}
+		}
+	}
+}

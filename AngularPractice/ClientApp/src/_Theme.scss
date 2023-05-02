@@ -1,0 +1,10 @@
+@mixin theme {
+	--primary_hue: 155;
+	--primary_sat: 100%;
+	--primary_lum: 50%;
+	--primary_color: hsl(var(--primary_hue), var(--primary_sat), var(--primary_lum));
+
+	--back_hue: 222;
+	--back_sat: 15%;
+	--back_lum: 12%;
+}

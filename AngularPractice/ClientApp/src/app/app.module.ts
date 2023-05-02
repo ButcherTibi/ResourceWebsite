@@ -19,6 +19,8 @@ import { PageWrapper } from './PageWrapper/PageWrapper';
 import { Rating } from './Rating/Rating';
 import { DateOnly, LargeNumber, When } from 'src/Pipes/Pipes';
 import { Recomendation } from './Recomendation/recomendation';
+import { CreateAccount } from './CreateAccount/CreateAccount';
+import { Login } from './Login/Login';
 
 
 // TODO:
@@ -47,6 +49,8 @@ import { Recomendation } from './Recomendation/recomendation';
     ImagePage,
     PageWrapper,
     Rating,
+    CreateAccount,
+	Login,
 
     // Pipes
     LargeNumber,
@@ -72,7 +76,8 @@ import { Recomendation } from './Recomendation/recomendation';
       { path: 'model', component: ModelPractice },
 
       // For Real
-      { path: 'resource', component: PageWrapper }
+      { path: 'resource', component: PageWrapper },
+      { path: 'signup', component: CreateAccount }
     ])
   ],
   providers: [],

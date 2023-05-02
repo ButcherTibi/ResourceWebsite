@@ -6,8 +6,14 @@
 	],
 	"settings": {
 		"[html]": {
+			"editor.detectIndentation": false,
 			"editor.insertSpaces": false,
 			"editor.tabSize": 2
+		},
+		"[typescript]": {
+			"editor.detectIndentation": false,
+			"editor.insertSpaces": false,
+			"editor.tabSize": 4
 		},
 		"[scss]": {
 			"editor.insertSpaces": false,

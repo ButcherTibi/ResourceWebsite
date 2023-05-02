@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using System.IO;
 using System.Net;
@@ -114,6 +115,25 @@ public class Endpoints : ControllerBase
 		return result;
 	}
 
+	public class AddCommentRequest
+	{
+		// Where
+		public int resource_id { get; set; }
+		public int author_id { get; set; }
+		public int parent_comment_id { get; set; }
+
+		// What
+		public string comment_text { get; set; }
+	}
+
+	[HttpPost("addComment")]
+	[Authorize]
+	public ActionResult addComment(AddCommentRequest req)
+	{
+		return Ok();
+	}
+
+
 	public class GetResourceRecomendationsRequest
 	{
 		public int resource_id { get; set; }
@@ -159,6 +179,7 @@ public class Endpoints : ControllerBase
 	}
 
 	[HttpPost("getPreviewImage")]
+	[Authorize]
 	public FileStreamResult getPreviewImage(GetPreviewImageRequest req)
 	{
 		string filepath = "Resources/test_image_preview.png";
