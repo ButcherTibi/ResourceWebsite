@@ -1,24 +1,48 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.EntityFrameworkCore;
 using System.IO;
 using System.Net;
 using System.Net.Http.Headers;
 
+
+
 [ApiController]
 [Route("api")]
-public class Endpoints : ControllerBase
+public partial class Endpoints : ControllerBase
 {
+	private readonly db.DatabaseContext ctx;
+
+	public Endpoints(db.DatabaseContext new_ctx)
+	{
+		ctx = new_ctx;
+	}
+
+
+	// Channel API
+
+	[HttpPost("getChannelDetails")]
+	public partial ActionResult getChannelDetails(GetChannelDetailsRequest req);
+
+	// [HttpPost("addRes")]
+
+
 	public class GetImageFileRequest
 	{
-		public int id { get; set; }
+		public int resource_id { get; set; }
 	};
 
 	[HttpPost("getImageFile")]
 	public ActionResult getImageFile(GetImageFileRequest req)
 	{
-		string filepath = "Resources/test_image.png";
-		return new FileStreamResult(new FileStream(filepath, FileMode.Open, FileAccess.Read, FileShare.Read), "image/png");
+		var image_resource = ctx.image_resources.Find(req.resource_id);
+
+		if (image_resource == null) {
+			return NotFound($"Image resource with id = {req.resource_id} was not found");
+		}
+
+		return new FileStreamResult(new FileStream(image_resource.image_filepath, FileMode.Open, FileAccess.Read, FileShare.Read), "image/png");
 	}
 
 	public class GetImageDetailsResponse
@@ -27,7 +51,7 @@ public class Endpoints : ControllerBase
         public string title { get; set; }
 		public DateTime create_date { get; set; }
 		public string description { get; set; }
-		public List<string> keywords { get; set; }
+		public string[] keywords { get; set; }
 
 		// Resource Dynamic Details
 		public int views { get; set; }
@@ -35,31 +59,43 @@ public class Endpoints : ControllerBase
 		public int dislikes { get; set; }
 
 		// Author Details
+		public int author_id { get; set; }
         public string author_name { get; set; }
 		public int subscriptions { get; set; }
     }
 
 	[HttpPost("getImageDetails")]
-	public GetImageDetailsResponse getImageDetails(GetImageFileRequest req)
+	public ActionResult getImageDetails(GetImageFileRequest req)
 	{
-		return new GetImageDetailsResponse {
-			title = "Image Title",
-			create_date = DateTime.Now,
-			description = "Image Description",
-			keywords = new List<string> { "keyword 0", "keyword 1", "keyword 2" },
+		var img_res = ctx.image_resources.Where(img =>
+			img.id == req.resource_id
+		).Include(img => img.parent_user)
+		.FirstOrDefault();
 
-			views = 120_000,
-			likes = 12_000,
-			dislikes = 203,
+		if (img_res == null) {
+			return NotFound($"Image resource with id = {req.resource_id} was not found");
+		}
 
-			author_name = "Author name",
-			subscriptions = 20781
-		};
+		return Ok(new GetImageDetailsResponse {
+			title = img_res.title,
+			create_date = img_res.create_date,
+			description = img_res.description,
+			keywords = img_res.keywords.Split(','),
+
+			views = img_res.views,
+			likes = img_res.likes,
+			dislikes = img_res.dislikes,
+
+			author_id = img_res.parent_user.id,
+			author_name = img_res.parent_user.name,
+			subscriptions = 0
+		});
 	}
 
 	public class GetCommentsRequest
 	{
 		public int resource_id { get; set; }
+		public db.ResourceType resource_type { get; set; }
 		public int parent_comment_id { get; set; }
 	}
 
@@ -68,10 +104,11 @@ public class Endpoints : ControllerBase
 		public class Comment
 		{
 			public int id { get; set; }
-			public int parent_id { get; set; }
+			public int parent_comment_id { get; set; }
 
-			public string user_name { get; set; }
-			public DateTime updated_date { get; set; }
+			public int author_id { get; set; }
+			public string author_name { get; set; }
+			public DateTime update_date { get; set; }
 			public string text { get; set; }
 			public int likes { get; set; }
 			public int dislikes { get; set; }
@@ -87,30 +124,26 @@ public class Endpoints : ControllerBase
 			comments = new List<GetCommentsResponse.Comment>()
 		};
 
-		result.comments.Add(new GetCommentsResponse.Comment {
-			id = 0,
-			user_name = "User 0",
-			updated_date = DateTime.Now,
-			text = "Comment 0",
-			likes = 10234,
-			dislikes = 120
-		});
-		result.comments.Add(new GetCommentsResponse.Comment {
-			id = 1,
-			user_name = "User 1",
-			updated_date = DateTime.Now,
-			text = "Comment 1",
-			likes = 17897,
-			dislikes = 1002,
-		});
-		result.comments.Add(new GetCommentsResponse.Comment {
-			id = 2,
-			user_name = "User 2",
-			updated_date = DateTime.Now,
-			text = "Comment 2",
-			likes = 189,
-			dislikes = 10,
-		});
+		result.comments = ctx.resource_comments.Where(c =>
+			c.resource_type == req.resource_type &&
+			c.resource_id == req.resource_id
+		).Join(
+			ctx.users,
+			comment => comment.author_id,
+			user => user.id,
+			(comment, user) => new GetCommentsResponse.Comment {
+				id = comment.id,
+				parent_comment_id = comment.parent_comment_id,
+				author_id = user.id,
+				author_name = user.name,
+
+				update_date = comment.update_date ?? comment.create_date,
+				likes = 0,
+				dislikes = 0,
+
+				text = comment.text,
+			}
+		).ToList();
 
 		return result;
 	}
@@ -162,7 +195,7 @@ public class Endpoints : ControllerBase
 
 		for (var i = 0; i < 13; i++) {
 			result.recomendations.Add(new GetResourceRecomendationsResponse.Recomendation {
-				resource_id = i,
+				resource_id = 1,
 				title = $"Recomendation {i}",
 				author = $"Author {i}",
 				views = new Random().Next(13_891_463),
@@ -176,13 +209,28 @@ public class Endpoints : ControllerBase
 	public class GetPreviewImageRequest
 	{
 		public int resource_id { get; set; }
+		public db.ResourceType type { get; set; }
 	}
 
 	[HttpPost("getPreviewImage")]
-	[Authorize]
-	public FileStreamResult getPreviewImage(GetPreviewImageRequest req)
+	public ActionResult getPreviewImage(GetPreviewImageRequest req)
 	{
-		string filepath = "Resources/test_image_preview.png";
-		return new FileStreamResult(new FileStream(filepath, FileMode.Open, FileAccess.Read, FileShare.Read), "image/png");
+		db.Resource? resource;
+
+		switch (req.type) {
+		case db.ResourceType.Image: {
+			resource = ctx.image_resources.Find(req.resource_id);
+			break;
+		}
+		default: {
+			return BadRequest($"Unrecognized resource type = {req.type}");
+		}
+		}
+
+		if (resource == null) {
+			return NotFound($"Resource of type = {req.type} with id = {req.resource_id} was not found");
+		}
+
+		return new FileStreamResult(new FileStream(resource.preview_filepath, FileMode.Open, FileAccess.Read, FileShare.Read), "image/png");
 	}
 };

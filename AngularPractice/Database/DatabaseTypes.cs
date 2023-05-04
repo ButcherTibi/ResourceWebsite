@@ -17,13 +17,13 @@ namespace db
 
 	public interface Resource
 	{
-		
+		public string preview_filepath { get; set; }
 	}
 
 	public enum ResourceType
 	{
-		Image,
-		Audio
+		Image = 0,
+		Audio = 1
 	}
 
 	public class User : DbType
@@ -34,7 +34,12 @@ namespace db
 		public string name { get; set; }
 		public string password { get; set; }
 
-		// Created Content
+		// User
+		public string avatar_img_filepath { get; set; }
+
+		// Channel
+		public string channel_banner_filepath { get; set; }
+		public string channel_description { get; set; }
 		public virtual ICollection<ImageResource> image_resources { get; set; }
 		public virtual ICollection<AudioResource> audio_resources { get; set; }
 
@@ -44,7 +49,7 @@ namespace db
 		public DateTime? delete_date { get; set; }
 	}
 
-	public class ImageResource : DbType
+	public class ImageResource : DbType, Resource
 	{
 		public int id { get; set; }
 
@@ -70,7 +75,7 @@ namespace db
 		public DateTime? delete_date { get; set; }
 	}
 
-	public class AudioResource : DbType
+	public class AudioResource : DbType, Resource
 	{
 		public int id { get; set; }
 
@@ -112,33 +117,25 @@ namespace db
 		public DateTime? delete_date { get; set; }
 	}
 
-	public class Blog
+	public class Rating
 	{
-		public int BlogId { get; set; }
-		public string Url { get; set; }
+		public ResourceType resource_type { get; set; }
+		public int resource_id { get; set; }
+		public int user_id { get; set; }
 
-		public virtual List<Post> Posts { get; } = new();
-	}
+		public int rating { get; set; }
 
-	public class Post
-	{
-		public int PostId { get; set; }
-		public string Title { get; set; }
-		public string Content { get; set; }
-
-		public int BlogId { get; set; }
-		public virtual Blog Blog { get; set; }
+		public DateTime create_date { get; set; }
 	}
 
 	public class DatabaseContext : DbContext
 	{
-		public DbSet<Blog> Blogs { get; set; }
-		public DbSet<Post> Posts { get; set; }
-
 		public DbSet<User> users { get; set; }
+
 		public DbSet<ImageResource> image_resources { get; set; }
 		public DbSet<AudioResource> audio_resources { get; set; }
 		public DbSet<Comment> resource_comments { get; set; }
+		// public DbSet<Rating> resource_ratings { get; set; }
 
 
 		static DbContextOptions setOptions(DbContextOptionsBuilder options)

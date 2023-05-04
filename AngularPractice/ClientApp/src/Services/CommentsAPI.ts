@@ -2,17 +2,21 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 import Globals from "./Globals";
+import { ResourceType } from "./ResourceLoaders";
 
 export class GetCommentsRequest {
-	id: number = 0
+	resource_id: number = 0
+	resource_type: ResourceType = ResourceType.Image
+	parent_comment_id: number = 0
 }
 
 export class Comment {
 	id: number = 0
-	parent_id: number = 0
-	level: number = 0
-	user_name: string = ''
-	updated_date: Date = new Date
+	parent_comment_id: number = 0
+
+	author_id: number = 0
+	author_name: string = ''
+	update_date: Date = new Date
 	text: string = ''
 	likes: number = 0
 	dislikes: number = 0

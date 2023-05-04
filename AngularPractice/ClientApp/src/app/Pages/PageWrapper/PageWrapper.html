@@ -1,4 +1,4 @@
-<header>
+<!-- <header>
 	<div class="left">
 		<button class="menu-btn">Menu</button>
 		<button class="logo-btn">Logo</button>
@@ -13,9 +13,12 @@
 		<button class="notifications-btn">Notifications</button>
 		<button class="account-btn">Account</button>
 	</div>
-</header>
+</header> -->
 
-<image-page></image-page>
+<ng-container [ngSwitch]="active_content">
+	<image-page *ngSwitchCase="inner_content.Image"></image-page>
+	<channel-page *ngSwitchCase="inner_content.Channel"></channel-page>
+</ng-container>
 
 <!-- Popups -->
 <ng-container [ngSwitch]="active_popup">

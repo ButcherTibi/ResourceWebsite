@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
-import { ResourceLoader, GetImageDetailsResponse, Recomendation } from "src/Services/ResourceLoaders";
+import { ResourceLoader, GetImageDetailsResponse, Recomendation, ResourceType } from "src/Services/ResourceLoaders";
 import { ObjectURLManager } from "src/Services/ObjectURLManager"
 import { CommentAPI, Comment } from "src/Services/CommentsAPI";
 
@@ -32,19 +32,22 @@ export class ImagePage implements OnInit, OnDestroy {
 	) {}
 
 	ngOnInit(): void {
-		this.res_loader.getImageFile({ id: 1 }, (buffer) => {
+		let search_params = new URLSearchParams(window.location.search)
+		let resource_id: number = Number(search_params.get("id"))
+
+		this.res_loader.getImageFile({ resource_id: resource_id }, (buffer) => {
 			this.image_safeurl = this.objurl_manag.createUrl(buffer)
 		})
 
-		this.res_loader.getImageDetails({ id: 1 }, (image_details) => {
+		this.res_loader.getImageDetails({ resource_id: resource_id }, (image_details) => {
 			this.image_details = image_details
 		})
 
-		this.comments_api.getResourceComments({ id: 1 }, (comments) => {
+		this.comments_api.getResourceComments({ resource_id: resource_id, resource_type: ResourceType.Image, parent_comment_id: 0 }, (comments) => {
 			this.comments = comments
 		})
 
-		this.res_loader.getResourceRecomendations({ resource_id: 1 }, 
+		this.res_loader.getResourceRecomendations({ resource_id: resource_id, type: ResourceType.Image }, 
 			(recomendations) => {
 				this.recomendations = recomendations.map(recomendation => {
 					let new_recomendation_view: RecomendationView = {
@@ -54,8 +57,8 @@ export class ImagePage implements OnInit, OnDestroy {
 					return new_recomendation_view
 				})
 			},
-			(resource_id, buffer) => {
-				let recomendation = this.recomendations.find(recomendation => recomendation.resource_id === resource_id)!
+			(id, buffer) => {
+				let recomendation = this.recomendations.find(recomendation => recomendation.resource_id === id && recomendation.preview_safeurl === '')!
 				recomendation.preview_safeurl = this.objurl_manag.createUrl(buffer)
 			}
 		)

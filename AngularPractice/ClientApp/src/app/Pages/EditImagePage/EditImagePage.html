@@ -1,0 +1,9 @@
+<form [formGroup]="form">
+	<label>File</label>
+	<input type="file" (change)="fileChange($event)" formControlName="file">
+	
+	<label>Title</label>
+	<input type="text" formControlName="title">
+	
+	<button (click)="save()">Save</button>
+</form>

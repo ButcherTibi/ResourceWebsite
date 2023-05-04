@@ -2,8 +2,13 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 
-export class GetImageFileRequest {
+export enum ResourceType {
+	Image,
+	Audio
+}
 
+export class GetImageFileRequest {
+	resource_id: number = 0
 }
 
 export class GetImageDetailsResponse {
@@ -21,6 +26,7 @@ export class GetImageDetailsResponse {
 
 export class GetResourceRecomendationsRequest {
 	resource_id: number = 0
+	type: ResourceType = ResourceType.Image
 }
 
 export class Recomendation {
@@ -31,8 +37,9 @@ export class Recomendation {
 	create_date: Date = new Date
 }
 
-class GetPreviewImageRequest {
+export class GetPreviewImageRequest {
 	resource_id: number = 0
+	type: ResourceType = ResourceType.Image
 }
 
 interface GetResourceRecomendationsResponse {
@@ -61,6 +68,16 @@ export class ResourceLoader {
 		)
 	}
 
+	getPreviewImage(req: GetPreviewImageRequest, onLoad: (bufer: ArrayBuffer) => void)
+	{
+		let obs = this.http.post("api/getPreviewImage", req, { responseType: 'arraybuffer' })
+		obs.subscribe(
+			res => {
+				onLoad(res)
+			}
+		)
+	}
+
 	getResourceRecomendations(req: GetResourceRecomendationsRequest,
 		onRecomendationsLoaded: (recomendations: Recomendation[]) => void,
 		onPreviewFileLoaded: (resource_id: number, buffer: ArrayBuffer) => void)
@@ -71,7 +88,8 @@ export class ResourceLoader {
 
 				res.recomendations.forEach(recomendation => {
 					let preview_req: GetPreviewImageRequest = {
-						resource_id: recomendation.resource_id
+						resource_id: recomendation.resource_id,
+						type: req.type
 					}
 					let obs = this.http.post("api/getPreviewImage", preview_req, { responseType: 'arraybuffer' })
 					obs.subscribe(

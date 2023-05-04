@@ -7,6 +7,11 @@ enum Popups {
 	Login
 }
 
+enum InnerContent {
+	Image,
+	Channel
+}
+
 @Component({
     selector: 'page-wrapper',
     templateUrl: 'PageWrapper.html',
@@ -14,10 +19,18 @@ enum Popups {
 })
 export class PageWrapper<ChildT> implements OnInit {
     popups = Popups
-	active_popup = Popups.Login
+	active_popup = Popups.None
+	inner_content = InnerContent
+	active_content = InnerContent.Image
 
     ngOnInit(): void {
-        
+		let path = window.location.pathname
+		if (path.startsWith('/image')) {
+			this.active_content = InnerContent.Image
+		}
+		else if (path.startsWith('/channel')) {
+			this.active_content = InnerContent.Channel
+		}
     }
 
 	onLogin() {

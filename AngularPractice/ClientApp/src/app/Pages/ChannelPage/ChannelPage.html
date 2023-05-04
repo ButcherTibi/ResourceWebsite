@@ -1,0 +1,24 @@
+<h3 class="channel-name">{{owner_name}}</h3>
+<div class="resources">
+	<div class="bar">
+		<h3>Images</h3>
+		<button>Add</button>
+	</div>
+	<div class="previews">
+		<ng-container *ngFor="let res of resources">
+			<div class="preview">
+				<img [src]="res.safeurl">
+				<div class="details">
+					<h3 class="title">{{res.title}}</h3>
+				</div>
+
+				<button>Opt</button>
+			</div>
+		</ng-container>
+	</div>
+</div>
+
+<!-- Popups -->
+<div class="resource-context-menu">
+	<button>Delete</button>
+</div>

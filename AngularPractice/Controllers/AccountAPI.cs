@@ -134,6 +134,7 @@ namespace AngularPractice.Controllers
 		public class LoginResponse
 		{
 			public bool ok { get; set; }
+			public int user_id { get; set; }
 			public string token { get; set; }
 		}
 
@@ -141,13 +142,12 @@ namespace AngularPractice.Controllers
 		[AllowAnonymous]
 		public LoginResponse login(LoginRequest req)
 		{
-			bool user_found = false;
-
-			if (req.name == "Name" && req.password == "1234") {
-				user_found = true;
-			}
+			var user = ctx.users.Where(user =>
+				user.name == req.name &&
+				user.password == req.password
+			).FirstOrDefault();
 			
-			if (user_found == false) {
+			if (user == null) {
 				return new LoginResponse { ok = false };
 			}
 
@@ -175,6 +175,7 @@ namespace AngularPractice.Controllers
 			var token = token_handler.CreateToken(token_descp);
 			return new LoginResponse {
 				ok = true,
+				user_id = user.id,
 				token = token_handler.WriteToken(token)
 			};
 		}
