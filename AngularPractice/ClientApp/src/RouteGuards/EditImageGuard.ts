@@ -14,7 +14,7 @@ export class EditImageGuard implements CanActivate {
 			return true
 		}
 		
-		Globals.return_url = state.url
+		Globals.return_path = state.url
 		this.router.navigate(['/signin'])
 		return false
 	}

@@ -15,6 +15,13 @@ export class ObjectURLManager implements OnDestroy {
         return this.sanitizer.bypassSecurityTrustUrl(new_url)
     }
 
+	createUrlFromBlob(blob: Blob): SafeUrl {
+		let new_url = URL.createObjectURL(blob)
+        this.urls.push(new_url)
+
+        return this.sanitizer.bypassSecurityTrustUrl(new_url)
+	}
+
     ngOnDestroy(): void {
         this.urls.forEach(url => {
             URL.revokeObjectURL(url)

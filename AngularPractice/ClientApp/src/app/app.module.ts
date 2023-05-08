@@ -78,8 +78,8 @@ import { EditImageGuard } from 'src/RouteGuards/EditImageGuard';
 	  { path: 'signin', component: SigninPage },
       { path: 'image', component: PageWrapper },
 	  { path: 'channel', component: PageWrapper },
-      { path: 'addimage', component: EditImagePage, canActivate: [EditImageGuard] },
-      { path: 'editimage', component: EditImagePage }
+      { path: 'addimage', component: EditImagePage },
+      { path: 'editimage', component: EditImagePage, canActivate: [EditImageGuard] }
     ])
   ],
   providers: [],

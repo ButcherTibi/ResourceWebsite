@@ -39,7 +39,6 @@ export class Recomendation {
 
 export class GetPreviewImageRequest {
 	resource_id: number = 0
-	type: ResourceType = ResourceType.Image
 }
 
 interface GetResourceRecomendationsResponse {
@@ -87,9 +86,9 @@ export class ResourceLoader {
 				onRecomendationsLoaded(res.recomendations)
 
 				res.recomendations.forEach(recomendation => {
-					let preview_req: GetPreviewImageRequest = {
+					let preview_req = {
 						resource_id: recomendation.resource_id,
-						type: req.type
+						type: ResourceType.Image
 					}
 					let obs = this.http.post("api/getPreviewImage", preview_req, { responseType: 'arraybuffer' })
 					obs.subscribe(

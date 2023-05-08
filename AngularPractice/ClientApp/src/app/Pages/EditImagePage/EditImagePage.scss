@@ -1,0 +1,22 @@
+.upload-input {
+	input[type="file"] {
+		display: none;
+	}
+
+	label {
+		color: white;
+		cursor: pointer;
+	}
+}
+
+.horz-field {
+	label {
+		color: white;
+	}
+}
+
+.vert-field {
+	label {
+		color: white;
+	}
+}

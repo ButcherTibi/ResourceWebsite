@@ -25,7 +25,10 @@ public partial class Endpoints : ControllerBase
 	[HttpPost("getChannelDetails")]
 	public partial ActionResult getChannelDetails(GetChannelDetailsRequest req);
 
-	// [HttpPost("addRes")]
+	[HttpPost("upsertResourceFile")]
+	[Authorize]
+	public partial ActionResult upsertResourceFile(IFormCollection form);
+
 
 
 	public class GetImageFileRequest

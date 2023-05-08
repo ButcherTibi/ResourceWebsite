@@ -22,8 +22,8 @@ export class SigninPage {
 		this.account_api.login({ name: this.name, password: this.password},
 			(ok) => {
 				if (ok) {
-					if (Globals.return_url !== '') {
-						this.router.navigate([Globals.return_url])
+					if (Globals.return_path !== '') {
+						this.router.navigate([Globals.return_path])
 					}
 				}
 			}	

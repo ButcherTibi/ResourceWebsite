@@ -39,7 +39,7 @@ export class ChannelPage implements OnInit {
 				this.resources = res.resources
 
 				this.resources.forEach(resource => {
-					this.res_loader.getPreviewImage({ resource_id: resource.resource_id, type: ResourceType.Image }, 
+					this.res_loader.getPreviewImage({ resource_id: resource.resource_id }, 
 						(buffer) => {
 							resource.safeurl = this.objurl_manag.createUrl(buffer)
 						}

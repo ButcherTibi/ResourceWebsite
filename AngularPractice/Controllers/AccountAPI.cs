@@ -160,7 +160,10 @@ namespace AngularPractice.Controllers
 					new Claim("Id", Guid.NewGuid().ToString()),
 					new Claim(JwtRegisteredClaimNames.Sub, req.name),
 					new Claim(JwtRegisteredClaimNames.Email, req.name),
-					new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+					new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+
+					// Custom
+					new Claim("user_id", user.id.ToString())
 				}),
 				Expires = DateTime.UtcNow.AddMinutes(5),
 				Issuer = issuer,

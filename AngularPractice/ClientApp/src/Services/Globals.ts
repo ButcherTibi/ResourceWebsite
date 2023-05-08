@@ -1,5 +1,5 @@
 export default class Globals {
-	static return_url: string = ''
+	static return_path: string = ''
 
 	static get token(): string {
 		return sessionStorage.getItem('auth_token') ?? ''

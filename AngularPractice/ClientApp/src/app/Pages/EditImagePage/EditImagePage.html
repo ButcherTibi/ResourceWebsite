@@ -1,9 +1,28 @@
 <form [formGroup]="form">
-	<label>File</label>
-	<input type="file" (change)="fileChange($event)" formControlName="file">
+	<div class="resource-input upload-input">
+		<input id="resource_file" type="file" formControlName="resource_file"
+			(change)="resourceFileChange($event)">
+		<label for="resource_file">Upload image</label>
+		<img [src]="resource_safeurl">
+	</div>
 	
-	<label>Title</label>
-	<input type="text" formControlName="title">
+	<div class="preview-input upload-input">
+		<input id="preview_file" type="file" (change)="previewFileChange($event)" formControlName="preview_file">
+		<label for="preview_file">Upload preview image</label>
+		<img [src]="preview_safeurl">
+	</div>
 	
-	<button (click)="save()">Save</button>
+	<div class="horz-field">
+		<label>Title</label>
+		<input type="text" formControlName="title">
+	</div>
+
+	<div class="vert-field">
+		<label>Description</label>
+		<input type="text" formControlName="description">
+	</div>
+
+	<div class="actions">
+		<button (click)="save()">Save</button>
+	</div>
 </form>
