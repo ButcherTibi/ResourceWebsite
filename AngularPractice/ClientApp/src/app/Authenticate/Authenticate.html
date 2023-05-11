@@ -1,0 +1,66 @@
+<div class="popup">
+	<button class="close-btn" (click)="close()">X</button>
+
+	<ng-container [ngSwitch]="now_mode">
+		<!-- Signin -->
+		<ng-container *ngSwitchCase="mode.Signin">
+			<h1>Sign in</h1>
+			<form [formGroup]="signin_form" (ngSubmit)="signin()">
+				<div class="frows">
+					<div class="frow">
+						<label>Name</label>
+						<input type="text" formControlName="now_name"
+							autocomplete="username" tabindex="1">
+					</div>
+					<div class="frow">
+						<label>Password</label>
+						<input type="password" formControlName="now_password"
+							autocomplete="current-password" tabindex="2"
+						>
+					</div>
+				</div>
+				
+				<div class="actions">
+					<a class="signup-link" (click)="switchMode(mode.Signup)"
+						tabindex="4">
+						No account? Create one!
+					</a>
+					<button class="signin" type="submit" [disabled]="signin_form.invalid"
+						tabindex="3">
+						Sign in
+					</button>
+				</div>
+			</form>
+		</ng-container>
+
+		<!-- Signup -->
+		<ng-container *ngSwitchCase="mode.Signup">
+			<h1>Sign up</h1>
+			<form [formGroup]="signup_form" (ngSubmit)="signup()">
+				<div class="frows">
+					<div class="frow">
+						<label>Name</label>
+						<input type="text" formControlName="new_name"
+							autocomplete="username" tabindex="1">
+					</div>
+					<div class="frow">
+						<label>Password</label>
+						<input type="password" formControlName="new_password"
+							autocomplete="new-password" tabindex="2">
+					</div>
+				</div>
+				
+				<div class="actions">
+					<a class="signin-link" (click)="switchMode(mode.Signin)"
+						tabindex="4">
+						Already have an account. <br>Sign in!
+					</a>
+					<button class="signup" type="submit" [disabled]="signup_form.invalid"
+						tabindex="3">
+						Sign up
+					</button>
+				</div>
+			</form>
+		</ng-container>
+	</ng-container>
+</div>

@@ -25,7 +25,7 @@ public partial class Endpoints
 		{
 			public int resource_id { get; set; }
 			public string title { get; set; }
-			public DateTime create_date { get; set; }
+			public DateTime update_date { get; set; }
 		}
 
 		public ICollection<ResourcePreview> resources { get; set; }
@@ -46,7 +46,7 @@ public partial class Endpoints
 			return new GetChannelDetailsResponse.ResourcePreview {
 				resource_id = img_res.id,
 				title = img_res.title,
-				create_date = img_res.create_date
+				update_date = img_res.update_date ?? img_res.create_date
 			};
 		}).ToList();
 
@@ -57,7 +57,41 @@ public partial class Endpoints
 		});
 	}
 
-	public partial ActionResult upsertResourceFile(IFormCollection form)
+	public class GetChannelBannerImageRequest
+	{
+		 public int user_id { get; set; }
+	}
+
+	public partial ActionResult getChannelBannerImage(GetChannelBannerImageRequest req)
+	{
+		var user = ctx.users.Where(usr =>
+			usr.id == req.user_id
+		).FirstOrDefault();
+
+		if (user == null) {
+			return NotFound($"User with id = {req.user_id} was not found");
+		}
+
+		FileStream file_stream;
+		try {
+			file_stream = System.IO.File.Open(user.channel_banner_filepath, FileMode.Open, FileAccess.Read, FileShare.Read);
+		}
+		catch (Exception) {
+			return NotFound("Could not find file on disk");
+		}
+
+		string media_type = "";
+		switch (user.channel_banner_extension) {
+		case "png": {
+			media_type = "image/png";
+			break;
+		}
+		}
+
+		return new FileStreamResult(file_stream, media_type);
+	}
+
+	public partial ActionResult upsertResource(IFormCollection form)
 	{
 		var resource_id_str = form["resource_id"].FirstOrDefault() ?? "";
 		var title = form["title"].FirstOrDefault();

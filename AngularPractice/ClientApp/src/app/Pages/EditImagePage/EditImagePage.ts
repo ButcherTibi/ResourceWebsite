@@ -1,8 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { SafeUrl } from "@angular/platform-browser";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { ChannelAPI } from "src/Services/ChannelAPI";
+import Globals from "src/Services/Globals";
 import { ObjectURLManager } from "src/Services/ObjectURLManager";
 import { ResourceLoader } from "src/Services/ResourceLoaders";
 
@@ -30,19 +31,18 @@ export class EditImagePage implements OnInit {
 		private res_loader: ResourceLoader,
 		private channel_api: ChannelAPI,
 		private objurl_manag: ObjectURLManager,
-		private router: Router
+		private router: Router,
+		private activated_route: ActivatedRoute
 	) {}
 
 	ngOnInit(): void {
-		let path = window.location.pathname.split('/')[1]
-		
-		switch (path) {
-			case 'addimage': {
+		switch (window.location.pathname) {
+			case '/addimage': {
 				break;
 			}
-			case 'editimage': {
+			case '/editimage': {
 				let params = new URLSearchParams(window.location.search)
-				let id = params.get('id')
+				let id = params.get('resource_id')
 				if (id === null) {
 					this.router.navigate(['addimage'])
 				}
@@ -68,7 +68,13 @@ export class EditImagePage implements OnInit {
 				})
 				break;
 			}
-			default: console.trace()
+			default: {
+				this.activated_route.paramMap.subscribe({
+					next: param_map =>{
+						param_map.get('resource_id')
+					}
+				})
+			}
 		}
 	}
 
@@ -107,7 +113,7 @@ export class EditImagePage implements OnInit {
 			preview_blob: this.preview_blob!,
 		},
 			() => {
-				
+				this.router.navigateByUrl(`/channel?user_id=${Globals.channel_user_id}`)
 			},
 			err => {
 				console.log(err)

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using db;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -115,14 +116,22 @@ namespace AngularPractice.Controllers
 				return BadRequest("Password is invalid");
 			}
 
-			ctx.users.Add(new db.User {
+			var user = new db.User {
 				name = req.name,
 				password = req.password,
-			});
+			};
 
+			ctx.users.Add(user);
 			ctx.SaveChanges();
 
-			return Ok();
+			string token = Security.createToken(user.id, user.name);
+
+			return Ok(new LoginResponse {
+				ok = true,
+				user_id = user.id,
+				user_name = user.name,
+				token = token
+			});
 		}
 
 		public class LoginRequest
@@ -135,6 +144,7 @@ namespace AngularPractice.Controllers
 		{
 			public bool ok { get; set; }
 			public int user_id { get; set; }
+			public string user_name { get; set; }
 			public string token { get; set; }
 		}
 
@@ -151,35 +161,39 @@ namespace AngularPractice.Controllers
 				return new LoginResponse { ok = false };
 			}
 
-			var issuer = "Issuer";
-			var audience = "Audience";
-			var key = Encoding.UTF8.GetBytes("qwertyuiopasdfghjkl");
+			string token = Security.createToken(user.id, user.name);
 
-			var token_descp = new SecurityTokenDescriptor {
-				Subject = new ClaimsIdentity(new[] {
-					new Claim("Id", Guid.NewGuid().ToString()),
-					new Claim(JwtRegisteredClaimNames.Sub, req.name),
-					new Claim(JwtRegisteredClaimNames.Email, req.name),
-					new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+			//var issuer = "Issuer";
+			//var audience = "Audience";
+			//var key = Encoding.UTF8.GetBytes("qwertyuiopasdfghjkl");
 
-					// Custom
-					new Claim("user_id", user.id.ToString())
-				}),
-				Expires = DateTime.UtcNow.AddMinutes(5),
-				Issuer = issuer,
-				Audience = audience,
-				SigningCredentials = new SigningCredentials(
-					new SymmetricSecurityKey(key),
-					SecurityAlgorithms.HmacSha512
-				)
-			};
+			//var token_descp = new SecurityTokenDescriptor {
+			//	Subject = new ClaimsIdentity(new[] {
+			//		new Claim("Id", Guid.NewGuid().ToString()),
+			//		new Claim(JwtRegisteredClaimNames.Sub, req.name),
+			//		new Claim(JwtRegisteredClaimNames.Email, req.name),
+			//		new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
 
-			var token_handler = new JwtSecurityTokenHandler();
-			var token = token_handler.CreateToken(token_descp);
+			//		// Custom
+			//		new Claim("user_id", user.id.ToString())
+			//	}),
+			//	Expires = DateTime.UtcNow.AddMinutes(5),
+			//	Issuer = issuer,
+			//	Audience = audience,
+			//	SigningCredentials = new SigningCredentials(
+			//		new SymmetricSecurityKey(key),
+			//		SecurityAlgorithms.HmacSha512
+			//	)
+			//};
+
+			//var token_handler = new JwtSecurityTokenHandler();
+			//var token = token_handler.CreateToken(token_descp);
+
 			return new LoginResponse {
 				ok = true,
 				user_id = user.id,
-				token = token_handler.WriteToken(token)
+				user_name = user.name,
+				token = token
 			};
 		}
 	}

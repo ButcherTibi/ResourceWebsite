@@ -19,12 +19,11 @@ export class SigninPage {
 	) {}
 
 	signin() {
-		this.account_api.login({ name: this.name, password: this.password},
+		this.account_api.signin({ name: this.name, password: this.password},
 			(ok) => {
 				if (ok) {
-					if (Globals.return_path !== '') {
-						this.router.navigate([Globals.return_path])
-					}
+					// TODO: navigate to last url not signup in history
+					
 				}
 			}	
 		)

@@ -15,12 +15,12 @@ import { PageWrapper } from './Pages/PageWrapper/PageWrapper';
 import { Rating } from './Rating/Rating';
 import { DateOnly, LargeNumber, When } from 'src/Pipes/Pipes';
 import { Recomendation } from './Recomendation/recomendation';
-import { CreateAccount } from './CreateAccount/CreateAccount';
-import { Login } from './Login/Login';
+import { AuthenticatePopup } from './Authenticate/Authenticate';
 import { ChannelPage } from './Pages/ChannelPage/ChannelPage';
 import { EditImagePage } from './Pages/EditImagePage/EditImagePage';
-import { SigninPage } from './Pages/LoginPage/SigninPage';
+import { SigninPage } from './Pages/SigninPage/SigninPage';
 import { EditImageGuard } from 'src/RouteGuards/EditImageGuard';
+import { EditChannelPage } from './Pages/EditChannelPage/EditChannelPage';
 
 
 // TODO:
@@ -42,17 +42,17 @@ import { EditImageGuard } from 'src/RouteGuards/EditImageGuard';
     ModelPractice,
 
     // For Real
-    ImagePage,
     PageWrapper,
     Rating,
-    CreateAccount,
-	Login,
+    AuthenticatePopup,
     Recomendation,
-	ChannelPage,
-	EditImagePage,
-
+	
 	// Pages
 	SigninPage,
+    ImagePage,
+	EditImagePage,
+	ChannelPage,
+	EditChannelPage,
 
     // Pipes
     LargeNumber,
@@ -78,6 +78,7 @@ import { EditImageGuard } from 'src/RouteGuards/EditImageGuard';
 	  { path: 'signin', component: SigninPage },
       { path: 'image', component: PageWrapper },
 	  { path: 'channel', component: PageWrapper },
+	  { path: 'editchannel', component: EditChannelPage },
       { path: 'addimage', component: EditImagePage },
       { path: 'editimage', component: EditImagePage, canActivate: [EditImageGuard] }
     ])

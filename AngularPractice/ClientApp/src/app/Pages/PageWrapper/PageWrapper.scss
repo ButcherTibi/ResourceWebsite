@@ -68,9 +68,50 @@ header {
 			color: white;
 		}
 
-		.account-btn {
-			background: transparent;
-			color: white;
+		.account-dropdown {
+			position: relative;
+
+			.account-btn {
+				background: transparent;
+				color: white;
+			}
+
+			.dropdown {
+				position: absolute;
+				top: 26px;
+				right: 0px;
+				z-index: 100;
+
+				width: 150px;
+
+				button {
+					width: 100%;
+				}
+			}
 		}
 	}
+}
+
+.dropdown-sink {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+
+	width: 100vw;
+	height: 100vh;
+}
+
+.popups {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 100;
+
+	width: 100vw;
+	height: 100vh;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	backdrop-filter: blur(8px) brightness(85%);
 }

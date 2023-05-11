@@ -1,24 +1,43 @@
-<h3 class="channel-name">{{owner_name}}</h3>
+<div class="banner">
+	<div class="inside">
+		<img>
+		<h3 class="channel-name">{{owner_name}}</h3>
+	</div>
+
+	<button class="edit-details">Edit</button>
+</div>
+
 <div class="resources">
 	<div class="bar">
 		<h3>Images</h3>
-		<button>Add</button>
+		<button (click)="addImageResource()">Add</button>
 	</div>
 	<div class="previews">
 		<ng-container *ngFor="let res of resources">
 			<div class="preview">
-				<img [src]="res.safeurl">
+				<div class="preview-img">
+					<img [src]="res.safeurl">
+					<button class="show-ctx-btn" (click)="showContextMenu($event)"
+						[attr.data-resource_id]="res.resource_id">
+						Opt
+					</button>
+				</div>
+				
 				<div class="details">
 					<h3 class="title">{{res.title}}</h3>
 				</div>
-
-				<button>Opt</button>
 			</div>
 		</ng-container>
 	</div>
 </div>
 
 <!-- Popups -->
-<div class="resource-context-menu">
-	<button>Delete</button>
+<div id="background_click_sink"
+	(click)="closeContexMenu()"
+	[style.display]="show_resource_ctx_menu ? 'initial' : 'none'">
+</div>
+<div class="resource-context-menu" id="resource_ctx_menu"
+	[style.visibility]="show_resource_ctx_menu ? 'visible': 'hidden'">
+	<button (click)="editImageResource()">Edit</button>
+	<!-- <button>Delete</button> -->
 </div>

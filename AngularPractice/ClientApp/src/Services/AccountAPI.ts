@@ -12,9 +12,11 @@ export class LoginRequest {
 	password: string = ''
 }
 
-class LoginResponse {
-	ok: boolean = false
-	token: string = ''
+interface LoginResponse {
+	ok: boolean
+	user_id: number
+	user_name: string
+	token: string
 }
 
 @Injectable({
@@ -24,18 +26,21 @@ export class AccountAPI {
 	constructor(private http: HttpClient) {}
 
 	createAccount(req: CreateAccountRequest, callback: () => void) {
-		this.http.post('api/account/createAccount', req).subscribe(
-			() => callback()
+		this.http.post<LoginResponse>('api/account/createAccount', req).subscribe(
+			(res) => {
+				Globals.signin(res.token, res.user_name);
+				callback()
+			}
 		)
 	}
 
-	login(req: LoginRequest, callback: (ok: boolean) => void) {
+	signin(req: LoginRequest, callback: (ok: boolean) => void) {
 		this.http.post<LoginResponse>('api/account/login', req).subscribe(
 			res => {
 				if (res.ok) {
-					Globals.token = res.token
+					Globals.signin(res.token, res.user_name);
 				}
-
+				
 				callback(res.ok)
 			}
 		)

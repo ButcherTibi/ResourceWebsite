@@ -5,7 +5,8 @@
 		<h1 class="title">{{image_details.title}}</h1>
 		<div class="author-and-stats-row">
 			<div class="left author">
-				<div class="author-and-subs">
+				<div class="author-and-subs"
+					(click)="navigateToChannel()">
 					<h3 class="author-name">{{image_details.author_name}}</h3>
 					<p class="subscribers"><var>{{image_details.subscriptions | largeNum}}</var> subscribers</p>
 				</div>

@@ -4,6 +4,7 @@ import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 import { ResourceLoader, GetImageDetailsResponse, Recomendation, ResourceType } from "src/Services/ResourceLoaders";
 import { ObjectURLManager } from "src/Services/ObjectURLManager"
 import { CommentAPI, Comment } from "src/Services/CommentsAPI";
+import { Router } from "@angular/router";
 
 
 class RecomendationView extends Recomendation {
@@ -25,7 +26,7 @@ export class ImagePage implements OnInit, OnDestroy {
 
 	constructor(
 		private http: HttpClient,
-		private sanitizer: DomSanitizer,
+		private router: Router,
 		private res_loader: ResourceLoader,
 		private comments_api: CommentAPI,
 		private objurl_manag: ObjectURLManager
@@ -62,6 +63,10 @@ export class ImagePage implements OnInit, OnDestroy {
 				recomendation.preview_safeurl = this.objurl_manag.createUrl(buffer)
 			}
 		)
+	}
+
+	navigateToChannel() {
+		this.router.navigateByUrl(`/channel?user_id=${this.image_details.author_id}`)
 	}
 
 	addComment() {

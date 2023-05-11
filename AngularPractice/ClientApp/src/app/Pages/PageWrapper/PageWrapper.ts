@@ -1,10 +1,15 @@
 import { Component, OnInit } from "@angular/core";
+import { AccountAPI } from "src/Services/AccountAPI";
 import Globals from "src/Services/Globals";
 
 enum Popups {
 	None,
-	CreateAccount,
-	Login
+	Signup
+}
+
+enum Dropdowns {
+	None,
+	Account
 }
 
 enum InnerContent {
@@ -18,22 +23,79 @@ enum InnerContent {
     styleUrls: ['PageWrapper.scss']
 })
 export class PageWrapper<ChildT> implements OnInit {
-    popups = Popups
-	active_popup = Popups.None
+    // Types
+	popups = Popups
+	dropdown = Dropdowns
 	inner_content = InnerContent
-	active_content = InnerContent.Image
+
+	now_popup = Popups.None
+	now_dropdown = Dropdowns.None
+	now_content = InnerContent.Image
+	user_name = ''
+	is_logged_in = false
+
+
+	constructor(
+		private account_api: AccountAPI
+	) {}
+
+	reloadUserDetails() {
+		if (Globals.token === '') {
+			this.user_name = 'Anonymous'
+			this.is_logged_in = false
+		}
+		else {
+			this.user_name = Globals.user_name
+			this.is_logged_in = true
+		}
+	}
 
     ngOnInit(): void {
+		// Top bar
+		this.reloadUserDetails()
+
+		// Content
 		let path = window.location.pathname
 		if (path.startsWith('/image')) {
-			this.active_content = InnerContent.Image
+			this.now_content = InnerContent.Image
 		}
 		else if (path.startsWith('/channel')) {
-			this.active_content = InnerContent.Channel
+			this.now_content = InnerContent.Channel
+		}
+		else {
+			throw new Error(`Unrecognized path = ${path}`)
 		}
     }
 
-	onLogin() {
-		this.active_popup = Popups.None
+	onAccountBtnClick() {
+		if (this.is_logged_in === false) { 
+			this.now_popup = Popups.Signup
+		}
+		else {
+			this.now_dropdown = Dropdowns.Account
+		}
+	}
+
+	closePopups() {
+		this.now_popup = Popups.None
+	}
+
+	closeDropdowns() {
+		this.now_dropdown = Dropdowns.None
+	}
+
+	onAuthenticated() {
+		this.closePopups()
+		this.reloadUserDetails()
+	}
+
+	editAccount() {
+		this.closeDropdowns();
+	}
+
+	signOut() {
+		Globals.signout();
+		this.reloadUserDetails();
+		this.closeDropdowns();
 	}
 }

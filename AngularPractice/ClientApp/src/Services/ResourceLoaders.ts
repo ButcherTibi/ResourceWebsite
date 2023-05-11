@@ -12,6 +12,7 @@ export class GetImageFileRequest {
 }
 
 export class GetImageDetailsResponse {
+	resource_id: number = 0
 	title: string = ''
 	create_date: Date = new Date()
 	description: string = ''
@@ -20,6 +21,7 @@ export class GetImageDetailsResponse {
 	likes: number = 0
 	dislikes: number = 0
 
+	author_id: number = 0
 	author_name: string = ''
 	subscriptions: number = 0
 }

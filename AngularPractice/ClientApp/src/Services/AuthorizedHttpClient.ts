@@ -29,7 +29,6 @@ export class AuthorizedHttpClient {
 				},
 				error: (err: HttpErrorResponse) => {
 					if (err.status === 401) {
-						Globals.return_path = window.location.pathname
 						this.router.navigate(['/signin'])
 					}
 				}
@@ -55,7 +54,6 @@ export class AuthorizedHttpClient {
 				},
 				error: (err: HttpErrorResponse) => {
 					if (err.status === 401) {
-						Globals.return_path = window.location.pathname
 						this.router.navigate(['/signin'])
 					}
 				}

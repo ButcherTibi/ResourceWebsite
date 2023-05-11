@@ -39,6 +39,7 @@ namespace db
 
 		// Channel
 		public string channel_banner_filepath { get; set; }
+		public string channel_banner_extension { get; set; }
 		public string channel_description { get; set; }
 		public virtual ICollection<ImageResource> image_resources { get; set; }
 		public virtual ICollection<AudioResource> audio_resources { get; set; }

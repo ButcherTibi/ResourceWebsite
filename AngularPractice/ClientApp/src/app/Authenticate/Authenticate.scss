@@ -1,22 +1,10 @@
 @use "../../Theme";
 
 :host {
-	position: fixed;
-	top: 0px;
-	left: 0px;
-	z-index: 100;
-
-	width: 100vw;
-	height: 100vh;
-
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	backdrop-filter: blur(8px) brightness(85%);
-
 	@include Theme.theme;
 
 	.popup {
+		position: relative;
 		border: 1px solid var(--primary_color);
 		border-radius: 10px;
 		padding: 20px;
@@ -28,6 +16,19 @@
 
 			color: white;
 			font-size: 2rem;
+		}
+
+		.close-btn {
+			position: absolute;
+			top: 0px;
+			right: 0px;
+
+			padding: 2px 12px;
+
+			border-top-right-radius: 10px;
+			background-color: red;
+
+			color: white;
 		}
 
 		.frows {
@@ -65,9 +66,17 @@
 
 		.actions {
 			display: flex;
-			justify-content: center;
+			align-items: center;
+			justify-content: space-between;
 
-			.signup {
+			.signup-link, .signin-link {
+				font-size: .9rem;
+				color: hsl(214, 100%, 62%);
+
+				cursor: pointer;
+			}
+
+			.signin, .signup {
 				border-radius: 4px;
 				padding: 8px 15px;
 

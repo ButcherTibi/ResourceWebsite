@@ -1,7 +1,7 @@
-<!-- <header>
+<header>
 	<div class="left">
-		<button class="menu-btn">Menu</button>
-		<button class="logo-btn">Logo</button>
+		<!-- <button class="menu-btn">Menu</button>
+		<button class="logo-btn">Logo</button> -->
 	</div>
 	
 	<div class="center">
@@ -10,18 +10,34 @@
 	</div>
 
 	<div class="right">
-		<button class="notifications-btn">Notifications</button>
-		<button class="account-btn">Account</button>
+		<div class="account-dropdown">
+			<button class="account-btn" (click)="onAccountBtnClick()">
+				{{user_name}}
+			</button>
+			<div class="dropdown" *ngIf="now_dropdown === dropdown.Account">
+				<button (click)="editAccount()">Edit Account</button>
+				<button (click)="signOut()">Sign out</button>
+			</div>
+		</div>
 	</div>
-</header> -->
+</header>
 
-<ng-container [ngSwitch]="active_content">
+<!-- Content -->
+<ng-container [ngSwitch]="now_content">
 	<image-page *ngSwitchCase="inner_content.Image"></image-page>
 	<channel-page *ngSwitchCase="inner_content.Channel"></channel-page>
 </ng-container>
 
+<!-- Dropdown -->
+<div class="dropdown-sink"
+	*ngIf="now_dropdown !== dropdown.None" (click)="closeDropdowns()">
+</div>
+
 <!-- Popups -->
-<ng-container [ngSwitch]="active_popup">
-	<login-popup *ngSwitchCase="popups.Login" (onLogin)="onLogin()"></login-popup>
-</ng-container>
-<!-- <create-account></create-account> -->
+<div class="popups" *ngIf="now_popup !== popups.None">
+	<ng-container [ngSwitch]="now_popup">
+		<authenticate-popup *ngSwitchCase="popups.Signup"
+			(onClose)="closePopups()" (onDone)="onAuthenticated()"></authenticate-popup>
+	</ng-container>
+</div>
+

@@ -23,11 +23,16 @@ public partial class Endpoints : ControllerBase
 	// Channel API
 
 	[HttpPost("getChannelDetails")]
+	[AllowAnonymous]
 	public partial ActionResult getChannelDetails(GetChannelDetailsRequest req);
+
+	[HttpPost("getChannelBannerImage")]
+	[AllowAnonymous]
+	public partial ActionResult getChannelBannerImage(GetChannelBannerImageRequest req);
 
 	[HttpPost("upsertResourceFile")]
 	[Authorize]
-	public partial ActionResult upsertResourceFile(IFormCollection form);
+	public partial ActionResult upsertResource(IFormCollection form);
 
 
 
@@ -50,6 +55,8 @@ public partial class Endpoints : ControllerBase
 
 	public class GetImageDetailsResponse
 	{
+		public int resource_id { get; set; }
+
 		// Resource Static Details
         public string title { get; set; }
 		public DateTime create_date { get; set; }
@@ -80,6 +87,8 @@ public partial class Endpoints : ControllerBase
 		}
 
 		return Ok(new GetImageDetailsResponse {
+			resource_id = img_res.id,
+
 			title = img_res.title,
 			create_date = img_res.create_date,
 			description = img_res.description,

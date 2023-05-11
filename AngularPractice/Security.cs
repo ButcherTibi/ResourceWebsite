@@ -1,14 +1,44 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using db;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
 public static class Security
 {
+	// TODO: make read from file
 	static SecurityKey signing_key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
 		"qwertyuiopasdfghjkl"
 	));
 
+	public static string createToken(int user_id, string user_name)
+	{
+		var issuer = "Issuer";
+		var audience = "Audience";
+
+		var token_descp = new SecurityTokenDescriptor {
+			Subject = new ClaimsIdentity(new[] {
+				new Claim(JwtRegisteredClaimNames.Sub, user_name),
+				new Claim(JwtRegisteredClaimNames.Email, user_name),
+				new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+
+				// Custom
+				new Claim("user_id", user_id.ToString())
+			}),
+			Expires = DateTime.UtcNow.AddMinutes(5),
+			Issuer = issuer,
+			Audience = audience,
+			SigningCredentials = new SigningCredentials(
+				signing_key,
+				SecurityAlgorithms.HmacSha512
+			)
+		};
+
+		var token_handler = new JwtSecurityTokenHandler();
+		var token = token_handler.CreateToken(token_descp);
+
+		return token_handler.WriteToken(token);
+	}
 
 	public static string readTokenUserId(HttpRequest req, out int user_id)
 	{
