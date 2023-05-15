@@ -25,6 +25,7 @@ public partial class Endpoints
 		{
 			public int resource_id { get; set; }
 			public string title { get; set; }
+			public int views { get; set; }
 			public DateTime update_date { get; set; }
 		}
 
@@ -46,6 +47,7 @@ public partial class Endpoints
 			return new GetChannelDetailsResponse.ResourcePreview {
 				resource_id = img_res.id,
 				title = img_res.title,
+				views = img_res.views,
 				update_date = img_res.update_date ?? img_res.create_date
 			};
 		}).ToList();
@@ -57,12 +59,12 @@ public partial class Endpoints
 		});
 	}
 
-	public class GetChannelBannerImageRequest
+	public class GetChannelBannerRequest
 	{
 		 public int user_id { get; set; }
 	}
 
-	public partial ActionResult getChannelBannerImage(GetChannelBannerImageRequest req)
+	public partial ActionResult getChannelBanner(GetChannelBannerRequest req)
 	{
 		var user = ctx.users.Where(usr =>
 			usr.id == req.user_id
@@ -86,9 +88,29 @@ public partial class Endpoints
 			media_type = "image/png";
 			break;
 		}
+		default: {
+			return StatusCode(500, "Unrecognized media type");
+		}
 		}
 
 		return new FileStreamResult(file_stream, media_type);
+	}
+
+	public partial ActionResult updateChannel(IFormCollection form)
+	{
+		int user_id;
+		if (Security.readTokenUserId(Request, out user_id) != "") {
+			return Unauthorized("Token read error");
+		}
+
+		var user = ctx.users.Find(user_id);
+		if (user == null) {
+			return Unauthorized("Token user not found");
+		}
+
+
+
+		return Ok();
 	}
 
 	public partial ActionResult upsertResource(IFormCollection form)

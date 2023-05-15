@@ -6,6 +6,10 @@ import { ResourceType } from "./ResourceLoaders";
 import { AuthorizedHttpClient } from "./AuthorizedHttpClient";
 import { defer, forkJoin, from } from "rxjs";
 
+export interface GetChannelBannerRequest {
+	user_id: number
+}
+
 export interface UpsertResourceFileRequest {
 	resource_id?: number
 	title: string
@@ -27,6 +31,15 @@ export class ChannelAPI {
 		private auth_http: AuthorizedHttpClient,
 		private sanitizer: DomSanitizer
 	) {}
+
+	getBanner(req: GetChannelBannerRequest, onLoad: (buffer: ArrayBuffer) => void) {
+		this.http.post('api/getChannelBanner', req, { responseType: 'arraybuffer' }).subscribe({
+			next: buffer => {
+				onLoad(buffer)
+			},
+			error: err => console.error(err)
+		})
+	}
 
 	upsertResourceFile(req: UpsertResourceFileRequest,
 		onLoad: (resource_id: number) => void, onError: (err: any) => void)

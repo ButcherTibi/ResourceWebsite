@@ -1,9 +1,14 @@
 <h1 class="page-title">Edit Channel</h1>
 
 <form [formGroup]="form">
-	<div class="">
-		<input type="file">
-		<label></label>
+	<image-input
+		[unique_id]="'banner_input'"
+		[text]="'Upload banner image'"
+		(onLoad)="onBannerUpload($event)">
+	</image-input>
+	
+	<div class="actions">
+		<button class="save" (click)="save()">Save</button>
 	</div>
 </form>
 

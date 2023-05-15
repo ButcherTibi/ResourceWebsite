@@ -21,6 +21,7 @@ import { EditImagePage } from './Pages/EditImagePage/EditImagePage';
 import { SigninPage } from './Pages/SigninPage/SigninPage';
 import { EditImageGuard } from 'src/RouteGuards/EditImageGuard';
 import { EditChannelPage } from './Pages/EditChannelPage/EditChannelPage';
+import { ImageInput } from './ImageInput/ImageInput';
 
 
 // TODO:
@@ -41,11 +42,12 @@ import { EditChannelPage } from './Pages/EditChannelPage/EditChannelPage';
     DirectivesPractice,
     ModelPractice,
 
-    // For Real
+    // Components
     PageWrapper,
     Rating,
     AuthenticatePopup,
     Recomendation,
+	ImageInput,
 	
 	// Pages
 	SigninPage,

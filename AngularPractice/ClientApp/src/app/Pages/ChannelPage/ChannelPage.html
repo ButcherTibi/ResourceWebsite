@@ -1,22 +1,24 @@
-<div class="banner">
-	<div class="inside">
-		<img>
-		<h3 class="channel-name">{{owner_name}}</h3>
-	</div>
+<!-- [style.background-image]="'url(' + banner_safeurl + ')'" -->
+<div class="banner"
+	[ngStyle]="{ 'background-image': banner_url }">
+	<button class="edit-details">Change banner</button>
+</div>
 
-	<button class="edit-details">Edit</button>
+<div class="header">
+	<h3 class="owner">{{owner_name}}</h3>
 </div>
 
 <div class="resources">
+	<hr>
 	<div class="bar">
-		<h3>Images</h3>
-		<button (click)="addImageResource()">Add</button>
+		<h3>Content</h3>
+		<button class="add-img-btn" (click)="addImageResource()">Add image</button>
 	</div>
 	<div class="previews">
 		<ng-container *ngFor="let res of resources">
 			<div class="preview">
 				<div class="preview-img">
-					<img [src]="res.safeurl">
+					<img [src]="res.safeurl" (click)="navigateToImage(res.resource_id)">
 					<button class="show-ctx-btn" (click)="showContextMenu($event)"
 						[attr.data-resource_id]="res.resource_id">
 						Opt
@@ -25,6 +27,10 @@
 				
 				<div class="details">
 					<h3 class="title">{{res.title}}</h3>
+					<div class="stats">
+						<p class="views"><var>{{res.views | largeNum}}</var> views</p>
+						<var class="date">{{res.update_date | dateonly}}</var>
+					</div>
 				</div>
 			</div>
 		</ng-container>

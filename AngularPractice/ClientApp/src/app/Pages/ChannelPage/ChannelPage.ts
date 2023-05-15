@@ -5,12 +5,14 @@ import { ObjectURLManager } from "src/Services/ObjectURLManager"
 import { SafeUrl } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import Globals from "src/Services/Globals";
+import { ChannelAPI } from "src/Services/ChannelAPI";
 
-class Preview {
-	resource_id: number = 0
-	title: string = ''
-	create_date: Date = new Date
-	safeurl: SafeUrl = ''
+interface Preview {
+	resource_id: number
+	title: string
+	views: number
+	update_date: Date
+	safeurl: SafeUrl
 }
 
 @Component({
@@ -20,6 +22,7 @@ class Preview {
 })
 export class ChannelPage implements OnInit {
 	channel_user_id: number = 0
+	banner_url: SafeUrl = {}
 	owner_name: string = ''
 	description: string = ''
 	resources: Preview[] = []
@@ -34,7 +37,8 @@ export class ChannelPage implements OnInit {
 		private http: HttpClient,
 		private res_loader: ResourceLoader,
 		private objurl_manag: ObjectURLManager,
-		private router: Router
+		private router: Router,
+		private channel_api: ChannelAPI
 	) {}
 
 	ngOnInit(): void {
@@ -48,6 +52,13 @@ export class ChannelPage implements OnInit {
 				this.description = res.description
 				this.resources = res.resources
 
+				this.channel_api.getBanner({ user_id: this.channel_user_id }, 
+					buffer => {
+						let safeurl: any = this.objurl_manag.createUrl(buffer)
+						this.banner_url = `url(${safeurl.changingThisBreaksApplicationSecurity})`
+					}
+				)
+
 				this.resources.forEach(resource => {
 					this.res_loader.getPreviewImage({ resource_id: resource.resource_id }, 
 						(buffer) => {
@@ -57,6 +68,10 @@ export class ChannelPage implements OnInit {
 				})
 			}
 		)
+	}
+
+	navigateToImage(image_id: number) {
+		this.router.navigateByUrl(`/image?id=${image_id}`)
 	}
 
 	addImageResource() {
@@ -89,5 +104,7 @@ export class ChannelPage implements OnInit {
 		}
 
 		this.show_resource_ctx_menu = true
+
+		ev.stopPropagation()
 	}
 }

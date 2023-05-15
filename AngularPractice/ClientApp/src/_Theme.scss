@@ -7,4 +7,5 @@
 	--back_hue: 222;
 	--back_sat: 15%;
 	--back_lum: 12%;
+	--back_color: hsl(var(--back_hue), var(--back_sat), var(--back_lum));
 }

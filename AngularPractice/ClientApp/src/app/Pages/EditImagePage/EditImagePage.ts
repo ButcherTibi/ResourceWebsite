@@ -13,10 +13,9 @@ import { ResourceLoader } from "src/Services/ResourceLoaders";
 	styleUrls: ['EditImagePage.scss']
 })
 export class EditImagePage implements OnInit {
-	resource_blob?: Blob
-	resource_safeurl: SafeUrl = ''
-	preview_blob?: Blob
-	preview_safeurl: SafeUrl = ''
+	image_buffer = new ArrayBuffer(0)
+	preview_buffer = new ArrayBuffer(0)
+
 	resource_id?: number
 
 
@@ -51,14 +50,12 @@ export class EditImagePage implements OnInit {
 
 				this.res_loader.getImageFile({ resource_id: this.resource_id },
 				buffer => {
-					this.resource_blob = new Blob([buffer])
-					this.resource_safeurl = this.objurl_manag.createUrlFromBlob(this.resource_blob)
+					this.image_buffer = buffer
 				})
 
 				this.res_loader.getPreviewImage({ resource_id: this.resource_id },
 				buffer => {
-					this.preview_blob = new Blob([buffer])
-					this.preview_safeurl = this.objurl_manag.createUrlFromBlob(this.preview_blob)
+					this.preview_buffer = buffer
 				})
 				
 				this.res_loader.getImageDetails({ resource_id: this.resource_id },
@@ -78,30 +75,12 @@ export class EditImagePage implements OnInit {
 		}
 	}
 
-	resourceFileChange(f: Event) {
-		let elem = f.target as HTMLInputElement;
-		let file: File = elem.files!.item(0)!
-		file.arrayBuffer().then(
-			buff => {
-				this.resource_blob = new Blob([buff], {
-					type: file.type
-				})
-				this.resource_safeurl = this.objurl_manag.createUrlFromBlob(this.resource_blob)
-			}
-		)
+	onImageLoad(ev: {buffer: ArrayBuffer, extension: string}) {
+		this.image_buffer = ev.buffer
 	}
 
-	previewFileChange(f: Event) {
-		let elem = f.target as HTMLInputElement;
-		let file: File = elem.files!.item(0)!
-		file.arrayBuffer().then(
-			buff => {
-				this.preview_blob = new Blob([buff], {
-					type: file.type
-				})
-				this.preview_safeurl = this.objurl_manag.createUrlFromBlob(this.preview_blob)
-			}
-		)
+	onPreviewLoad(ev: {buffer: ArrayBuffer, extension: string}) {
+		this.preview_buffer = ev.buffer
 	}
 
 	save() {
@@ -109,8 +88,8 @@ export class EditImagePage implements OnInit {
 			resource_id: this.resource_id,
 			title: this.form.value.title!,
 			description: this.form.value.description!,
-			resource_blob: this.resource_blob!,
-			preview_blob: this.preview_blob!,
+			resource_blob: new Blob([this.image_buffer]),
+			preview_blob: new Blob([this.preview_buffer]),
 		},
 			() => {
 				this.router.navigateByUrl(`/channel?user_id=${Globals.channel_user_id}`)

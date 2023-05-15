@@ -1,16 +1,17 @@
 <form [formGroup]="form">
-	<div class="resource-input upload-input">
-		<input id="resource_file" type="file" formControlName="resource_file"
-			(change)="resourceFileChange($event)">
-		<label for="resource_file">Upload image</label>
-		<img [src]="resource_safeurl">
-	</div>
-	
-	<div class="preview-input upload-input">
-		<input id="preview_file" type="file" (change)="previewFileChange($event)" formControlName="preview_file">
-		<label for="preview_file">Upload preview image</label>
-		<img [src]="preview_safeurl">
-	</div>
+	<image-input
+		[unique_id]="'image-input'"
+		[text]="'Upload image'"
+		[buffer]="image_buffer"
+		(onLoad)="onImageLoad($event)">
+	</image-input>
+
+	<image-input
+		[unique_id]="'preview-input'"
+		[text]="'Upload preview image'"
+		[buffer]="preview_buffer"
+		(onLoad)="onPreviewLoad($event)">
+	</image-input>
 	
 	<div class="horz-field">
 		<label>Title</label>

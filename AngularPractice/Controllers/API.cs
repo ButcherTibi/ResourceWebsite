@@ -26,9 +26,13 @@ public partial class Endpoints : ControllerBase
 	[AllowAnonymous]
 	public partial ActionResult getChannelDetails(GetChannelDetailsRequest req);
 
-	[HttpPost("getChannelBannerImage")]
+	[HttpPost("getChannelBanner")]
 	[AllowAnonymous]
-	public partial ActionResult getChannelBannerImage(GetChannelBannerImageRequest req);
+	public partial ActionResult getChannelBanner(GetChannelBannerRequest req);
+
+	[HttpPost("updateChannel")]
+	[Authorize]
+	public partial ActionResult updateChannel(IFormCollection form);
 
 	[HttpPost("upsertResourceFile")]
 	[Authorize]

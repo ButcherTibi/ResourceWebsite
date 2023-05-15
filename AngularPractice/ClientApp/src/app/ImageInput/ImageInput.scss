@@ -1,0 +1,54 @@
+:host {
+	display: flex;
+	flex-direction: column;
+	gap: 11px;
+}
+
+.above {
+	display: flex;
+	align-items: center;
+	gap: 13px;
+
+	.input-wrap {
+		input {
+			width: 0px;
+			height: 0px;
+		}
+		
+		label {
+			border-radius: 4px;
+			padding: 7px;
+		
+			background-color: hsl(214, 100%, 50%);
+			font-size: 1rem;
+			color: white;
+			line-height: 1;
+			cursor: pointer;
+	
+			&:hover {
+				background-color: hsl(214, 100%, 60%);
+			}
+		}
+	}
+	
+	.file-name {
+		display: flex;
+	
+		.name {
+			font-size: 1rem;
+			color: white;
+		}
+	
+		.extension {
+			font-size: 1rem;
+			font-weight: 600;
+			color: hsl(113, 100%, 39%);
+		}
+	}
+}
+
+.preview {
+	width: 250px;
+	aspect-ratio: 16 / 9;
+	object-fit: contain;
+}
